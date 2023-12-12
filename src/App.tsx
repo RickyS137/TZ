@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import ContributionGraph, { IContribution } from './components/ContributionGraph/ContributionGraph'
+import ContributionGraph from './components/ContributionGraph/ContributionGraph'
+import Scale from './components/Scale/Scale';
 
 interface IContributionData {
   [date: string]: number;
+}
+export interface IContribution {
+  date: string;
+  count: number;
 }
 
 const URL = 'https://dpg.gg/test/calendar.json'
@@ -28,6 +33,7 @@ function App() {
   return (
     <>
       <ContributionGraph contributions={parsedData}/>
+      <Scale/>
     </>
   )
 }

@@ -9,6 +9,20 @@ interface IDay {
   setIsSelected: (string: string) => void;
 }
 
+export const getColor = (number: number) => {
+  if(number <= 0) {
+    return '#EDEDED'
+  } else if (number >= 0 && number <= 9) {
+    return '#ACD5F2'
+  } else if (number >= 10 && number <= 19) {
+    return '#7FA8C9'
+  } else if (number >= 20 && number <= 29) {
+    return '#527BA0'
+  } else if (number >= 30 && number <= 39) {
+    return '#254E77'
+  }
+} 
+
 const Day: FC<IDay> = ({ num, day, setIsSelected, isSelected }) => {    
   const [isPopoverVisible, setPopoverVisibility] = useState(false);
 
@@ -18,19 +32,6 @@ const Day: FC<IDay> = ({ num, day, setIsSelected, isSelected }) => {
     } else setPopoverVisibility(false)    
   },[ isSelected ])
 
-  const getColor = (number: number) => {
-    if(number <= 0) {
-      return '#EDEDED'
-    } else if (number >= 0 && number <= 9) {
-      return '#ACD5F2'
-    } else if (number >= 10 && number <= 19) {
-      return '#7FA8C9'
-    } else if (number >= 20 && number <= 29) {
-      return '#527BA0'
-    } else if (number >= 30 && number <= 39) {
-      return '#254E77'
-    }
-  } 
 
   const formattedDate = (s:string) => {
     const dateObject = new Date(s);
@@ -60,7 +61,13 @@ const Day: FC<IDay> = ({ num, day, setIsSelected, isSelected }) => {
     >
       {isPopoverVisible && (
         <div className={classes.popover}>
-          <span className={classes.title}>{num} Contributions</span>
+          <span className={classes.title}>{
+          num > 0
+          ?
+          `${num} contributions`
+          :
+          'No contributions'
+          }</span>
           <span className={classes.text}>{formattedDate(day)}</span>
           <div className={classes.corner}></div>
         </div>

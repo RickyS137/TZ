@@ -1,11 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import Day from './components/Day/Day';
 import classes from './ContributionGraph.module.scss';
-
-export interface IContribution {
-  date: string;
-  count: number;
-}
+import { IContribution } from '../../App';
 
 interface IContributionGraph {
   contributions?: IContribution[];
