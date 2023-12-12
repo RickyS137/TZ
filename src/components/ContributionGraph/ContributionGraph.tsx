@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import Day from './components/Day/Day';
 import classes from './ContributionGraph.module.scss';
 import { IContribution } from '../../App';
@@ -11,6 +11,7 @@ const ContributionGraph: FC<IContributionGraph> = ({ contributions }) => {
   const [months, setMonths] = useState<string[]>([])
   const [weeks, setWeeks] = useState<JSX.Element[][]>([]);
   const [isSelected, setIsSelected] = useState<string | null>(null);
+  const graphRef = useRef<HTMLTableElement>(null);
 
   const handleSelect = (string: string) => {
     setIsSelected(string)
@@ -20,6 +21,20 @@ const ContributionGraph: FC<IContributionGraph> = ({ contributions }) => {
     const uniqueMonths = getUniqueMonths(contributions!);
     setMonths(uniqueMonths);
   }, [ contributions ]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (graphRef.current && !graphRef.current.contains(event.target as Node)) {
+        setIsSelected(null);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
 
   const getUniqueMonths = (data: IContribution[]): string[] => {
     const uniqueMonths: Set<string> = new Set();    
@@ -98,7 +113,7 @@ const ContributionGraph: FC<IContributionGraph> = ({ contributions }) => {
   };    
 
   return (
-    <table>
+    <table ref={graphRef}>
       <thead>
         <tr className={classes.months}>
           {months.map((month, i) => (
