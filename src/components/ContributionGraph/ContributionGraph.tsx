@@ -23,7 +23,7 @@ const ContributionGraph: FC<IContributionGraph> = ({ contributions }) => {
   useEffect(() => {
     const uniqueMonths = getUniqueMonths(contributions!);
     setMonths(uniqueMonths);
-  }, [contributions]);
+  }, [ contributions ]);
 
   const getUniqueMonths = (data: IContribution[]): string[] => {
     const uniqueMonths: Set<string> = new Set();    
@@ -56,15 +56,15 @@ const ContributionGraph: FC<IContributionGraph> = ({ contributions }) => {
     const newWeeks: JSX.Element[][] = [];
     let currentWeek: JSX.Element[] = [];
 
-    Array.from({ length: filledContributions.length }, (_, index) => {
-      const contribution = filledContributions[index];
+    Array.from({ length: filledContributions ? filledContributions.length : 0}, (_, index) => {
+      const contribution = filledContributions ? filledContributions[index] : {count: 0, date: ''};
       currentWeek.push(
         <td key={index}>
           <Day num={contribution.count} day={contribution.date} isSelected={isSelected} setIsSelected={handleSelect}/>
         </td>
       );
 
-      if ((index + 1) % 7 === 0 || index === filledContributions?.length - 1) {
+      if ((index + 1) % 7 === 0 || index === (filledContributions ? filledContributions.length - 1 : 0)) {
         newWeeks.push(<tr className={classes.week} key={newWeeks.length}>{currentWeek}</tr>);
         currentWeek = [];
       }
