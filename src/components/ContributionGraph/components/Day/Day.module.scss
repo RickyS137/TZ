@@ -1,7 +1,50 @@
 .day {
+  position: relative;
+
   width: 16px;
   height: 16px;
-  border: 1px solid #ddd;
   display: flex;
   font-size: 12px;
+  border: 1px solid transparent;
+}
+
+.day:hover {
+  border-color:rgba(0, 0, 0, 0.50);
+}
+
+.popover {
+  z-index: 3;
+  position: absolute;
+  top: -50px;
+  right: -64px;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 145px;
+  height: 42px;
+  border-radius: 3px;
+  background: #000; 
+
+  & .title {
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 400;
+  }
+  & .text {
+    color: #7C7C7C;
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  & .corner {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000;
+    position: absolute;
+    top: 40px;
+    left: 62px;
+  }
 }

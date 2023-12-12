@@ -1,3 +1,9 @@
+table {
+  color: #959494;
+  font-size: 12px;
+  font-weight: 400;
+}
+
 .contributionGraph {
   display: flex;
   height: 130px;
@@ -9,19 +15,15 @@
   }
 }
 
-.dayValue {
-  width: 100%;
-  height: 100%;
+.daysOfWeek {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  row-gap: 19px;
+  margin-right: 6px;
 }
 
-.active {
-  background-color: green;
-  color: white;
-}
-
-.inactive {
-  background-color: #f1f1f1;
+.months {
+  display: flex;
+  column-gap: 58px;
+  margin-left: 60px;
 }

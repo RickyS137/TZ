@@ -1,13 +1,22 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import classes from './Day.module.scss'
 
 
 interface IDay {
   day: string,
-  num: number
+  num: number,
+  isSelected: string | null,
+  setIsSelected: (string: string) => void;
 }
 
-const Day: FC<IDay> = ({ num}) => {    
+const Day: FC<IDay> = ({ num, day, setIsSelected, isSelected }) => {    
+  const [isPopoverVisible, setPopoverVisibility] = useState(false);
+
+  useEffect(() => {
+    if(isSelected === day){
+      setPopoverVisibility(true)
+    } else setPopoverVisibility(false)    
+  },[ isSelected ])
 
   const getColor = (number: number) => {
     if(number <= 0) {
@@ -23,13 +32,39 @@ const Day: FC<IDay> = ({ num}) => {
     }
   } 
 
+  const formattedDate = (s:string) => {
+    const dateObject = new Date(s);
+
+  const daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+  const months = [
+    'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  ];
+
+  const dayOfWeek = daysOfWeek[dateObject.getDay()];
+  const month = months[dateObject.getMonth()];
+  const day = dateObject.getDate();
+  const year = dateObject.getFullYear();
+
+  return `${dayOfWeek}, ${month} ${day}, ${year}`;
+  }
+
+  const handleClick = (day: string) => {    
+    setIsSelected(day)    
+  }
+
   return (
-    <div className={classes.day} style={{backgroundColor: getColor(num)}}>
-        <div
-          className={`day-value ${num > 0 ? 'active' : 'inactive'}`}
-        >
-          {num}
+    <div
+      className={classes.day}
+      style={{ backgroundColor: getColor(num) }}
+      onClick={() => handleClick(day)}
+    >
+      {isPopoverVisible && (
+        <div className={classes.popover}>
+          <span className={classes.title}>{num} Contributions</span>
+          <span className={classes.text}>{formattedDate(day)}</span>
+          <div className={classes.corner}></div>
         </div>
+      )}
     </div>
   )
 }
